@@ -78,7 +78,7 @@
 
                 <h1 class="display-4 fw-bold mb-3">
 
-                    <h1>Welcome to Student Feedback Portal - Jenkins CI/CD</h1>
+                    Welcome to Student Feedback Portal
 
                 </h1>
 
