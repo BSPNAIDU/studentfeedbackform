@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Welcome to Student Feedback Portal - Jenkins CI/CD</title>
+    <title>Student Feedback Portal</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -78,7 +78,7 @@
 
                 <h1 class="display-4 fw-bold mb-3">
 
-                    Welcome to Student Feedback Portal
+                    <h1>Welcome to Student Feedback Portal - Jenkins CI/CD</h1>
 
                 </h1>
 
