@@ -2,13 +2,16 @@ com\studentfeedback\model\Admin.class
 com\studentfeedback\util\TestConnection.class
 com\studentfeedback\servlet\HealthServlet.class
 com\studentfeedback\servlet\LogoutServlet.class
+com\studentfeedback\service\LLMService.class
 com\studentfeedback\servlet\ExportExcelServlet.class
 com\studentfeedback\servlet\DeleteFeedbackServlet.class
+com\studentfeedback\config\AIConfig.class
 com\studentfeedback\servlet\ViewFeedbackServlet.class
 com\studentfeedback\config\DBConnection.class
 com\studentfeedback\model\Feedback.class
 com\studentfeedback\servlet\FeedbackServlet.class
 com\studentfeedback\servlet\LoginServlet.class
 com\studentfeedback\servlet\DashboardServlet.class
+com\studentfeedback\util\LLMTest.class
 com\studentfeedback\dao\AdminDAO.class
 com\studentfeedback\dao\FeedbackDAO.class

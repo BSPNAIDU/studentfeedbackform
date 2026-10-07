@@ -1,8 +1,15 @@
+C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\config\AIConfig.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\config\DBConnection.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\dao\AdminDAO.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\dao\FeedbackDAO.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\model\Admin.java
+C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\model\ChatMessage.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\model\Feedback.java
+C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\service\AIQuestionRouter.java
+C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\service\FeedbackAIService.java
+C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\service\LLMService.java
+C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\service\WebSearchService.java
+C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\servlet\AIChatServlet.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\servlet\DashboardServlet.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\servlet\DeleteFeedbackServlet.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\servlet\ExportExcelServlet.java
@@ -12,4 +19,5 @@ C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\servlet\L
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\servlet\LogoutServlet.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\servlet\SearchFeedbackServlet.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\servlet\ViewFeedbackServlet.java
+C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\util\LLMTest.java
 C:\Users\BHALE\StudentFeedbackPortal\src\main\java\com\studentfeedback\util\TestConnection.java
