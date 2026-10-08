@@ -2,21 +2,30 @@ pipeline {
     agent any
 
     environment {
-        // Tomcat
+        // ==============================
+        // TOMCAT CONFIGURATION
+        // ==============================
         TOMCAT_HOME = 'C:\\apache-tomcat-10.1.57'
         CATALINA_HOME = 'C:\\apache-tomcat-10.1.57'
         CATALINA_BASE = 'C:\\apache-tomcat-10.1.57'
 
-        // Java
+        // ==============================
+        // JAVA CONFIGURATION
+        // ==============================
         JAVA_HOME = 'C:\\Program Files\\Java\\jdk-21.0.10'
         JRE_HOME = 'C:\\Program Files\\Java\\jdk-21.0.10'
 
-        // Application
+        // ==============================
+        // APPLICATION
+        // ==============================
         APP_NAME = 'StudentFeedbackPortal'
     }
 
     stages {
 
+        // ==========================================
+        // CHECKOUT
+        // ==========================================
         stage('Checkout') {
             steps {
                 echo '=============================================='
@@ -26,6 +35,9 @@ pipeline {
             }
         }
 
+        // ==========================================
+        // BUILD
+        // ==========================================
         stage('Build') {
             steps {
                 echo '=============================================='
@@ -36,6 +48,9 @@ pipeline {
             }
         }
 
+        // ==========================================
+        // ARCHIVE WAR
+        // ==========================================
         stage('Archive WAR') {
             steps {
                 echo '=============================================='
@@ -47,6 +62,9 @@ pipeline {
             }
         }
 
+        // ==========================================
+        // STOP TOMCAT
+        // ==========================================
         stage('Stop Tomcat') {
             steps {
                 echo '=============================================='
@@ -55,15 +73,27 @@ pipeline {
 
                 bat '''
                     echo JAVA_HOME=%JAVA_HOME%
+                    echo JRE_HOME=%JRE_HOME%
                     echo CATALINA_HOME=%CATALINA_HOME%
+
+                    echo.
+                    echo Sending shutdown command to Tomcat...
 
                     call "%CATALINA_HOME%\\bin\\shutdown.bat"
 
-                    timeout /t 5 /nobreak >nul
+                    echo.
+                    echo Waiting for Tomcat to stop...
+
+                    ping 127.0.0.1 -n 6 >nul
+
+                    echo Tomcat shutdown wait completed.
                 '''
             }
         }
 
+        // ==========================================
+        // DEPLOY WAR
+        // ==========================================
         stage('Deploy WAR') {
             steps {
                 echo '=============================================='
@@ -71,25 +101,37 @@ pipeline {
                 echo '=============================================='
 
                 bat '''
-                    echo Removing old application...
+                    echo Removing old application directory...
 
                     if exist "%TOMCAT_HOME%\\webapps\\%APP_NAME%" (
                         rmdir /S /Q "%TOMCAT_HOME%\\webapps\\%APP_NAME%"
                     )
 
+                    echo Removing old WAR file...
+
                     if exist "%TOMCAT_HOME%\\webapps\\%APP_NAME%.war" (
                         del /F /Q "%TOMCAT_HOME%\\webapps\\%APP_NAME%.war"
                     )
 
+                    echo.
                     echo Copying new WAR file...
 
                     copy /Y "target\\%APP_NAME%.war" "%TOMCAT_HOME%\\webapps\\%APP_NAME%.war"
 
-                    echo WAR deployment completed.
+                    if errorlevel 1 (
+                        echo ERROR: WAR deployment failed.
+                        exit /b 1
+                    )
+
+                    echo.
+                    echo WAR deployment completed successfully.
                 '''
             }
         }
 
+        // ==========================================
+        // START TOMCAT
+        // ==========================================
         stage('Start Tomcat') {
             steps {
                 echo '=============================================='
@@ -101,42 +143,63 @@ pipeline {
 
                     call "%CATALINA_HOME%\\bin\\startup.bat"
 
-                    timeout /t 10 /nobreak >nul
+                    echo.
+                    echo Waiting for Tomcat to start...
 
-                    echo Tomcat startup command completed.
+                    ping 127.0.0.1 -n 11 >nul
+
+                    echo Tomcat startup wait completed.
                 '''
             }
         }
 
+        // ==========================================
+        // DEPLOYMENT VERIFICATION
+        // ==========================================
         stage('Deployment Verification') {
             steps {
                 echo '=============================================='
-                echo 'DEPLOYMENT VERIFICATION'
+                echo 'VERIFYING DEPLOYMENT'
                 echo '=============================================='
 
                 bat '''
-                    echo Checking deployed WAR...
+                    echo Checking WAR file...
 
                     if exist "%TOMCAT_HOME%\\webapps\\%APP_NAME%.war" (
-                        echo WAR file successfully deployed.
+                        echo WAR file exists successfully.
                     ) else (
-                        echo ERROR: WAR file was not deployed.
+                        echo ERROR: WAR file was not found.
                         exit /b 1
+                    )
+
+                    echo.
+                    echo Checking deployed application directory...
+
+                    if exist "%TOMCAT_HOME%\\webapps\\%APP_NAME%" (
+                        echo Application directory exists.
+                    ) else (
+                        echo WARNING: Application directory is not available yet.
                     )
                 '''
 
+                echo '=============================================='
+                echo 'APPLICATION DEPLOYED'
+                echo '=============================================='
                 echo 'Application URL: http://localhost:9090/StudentFeedbackPortal/'
                 echo 'Tomcat URL: http://localhost:9090/'
             }
         }
     }
 
+    // ==========================================
+    // POST ACTIONS
+    // ==========================================
     post {
 
         success {
             echo '''
 ==============================================
-       CI/CD PIPELINE COMPLETED SUCCESSFULLY
+       CI/CD PIPELINE SUCCESS
 ==============================================
 
 GitHub
@@ -151,19 +214,26 @@ Maven Build
 WAR File
    |
    v
-Tomcat Stop
+Stop Tomcat
    |
    v
-WAR Deployment
+Deploy WAR
    |
    v
-Tomcat Start
+Start Tomcat
    |
    v
+Application Running
+
+==============================================
 Student Feedback Portal
+==============================================
 
 Application:
 http://localhost:9090/StudentFeedbackPortal/
+
+Tomcat:
+http://localhost:9090/
 
 ==============================================
 '''
@@ -175,7 +245,8 @@ http://localhost:9090/StudentFeedbackPortal/
           CI/CD PIPELINE FAILED
 ==============================================
 
-Please check the Jenkins Console Output.
+Check the Jenkins Console Output
+for the failed stage.
 
 ==============================================
 '''
