@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         TOMCAT_HOME = 'C:\\apache-tomcat-10.1.57'
+        CATALINA_HOME = 'C:\\apache-tomcat-10.1.57'
+        CATALINA_BASE = 'C:\\apache-tomcat-10.1.57'
         APP_NAME = 'StudentFeedbackPortal'
     }
 
@@ -35,7 +37,7 @@ pipeline {
                 echo 'Stopping Tomcat...'
 
                 bat '''
-                call "%TOMCAT_HOME%\\bin\\shutdown.bat"
+                call "%CATALINA_HOME%\\bin\\shutdown.bat"
                 timeout /t 5 /nobreak >nul
                 '''
             }
@@ -64,7 +66,7 @@ pipeline {
                 echo 'Starting Tomcat...'
 
                 bat '''
-                call "%TOMCAT_HOME%\\bin\\startup.bat"
+                call "%CATALINA_HOME%\\bin\\startup.bat"
                 timeout /t 10 /nobreak >nul
                 '''
             }
